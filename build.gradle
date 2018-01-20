@@ -1,0 +1,31 @@
+group 'edu.usf.myweb.jcameron2'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+
+    mavenCentral()
+    maven {
+        url "https://jitpack.io"
+    }
+
+}
+
+dependencies {
+    compile (group: 'com.github.austinv11', name: 'Discord4j', version: 'dev-SNAPSHOT')
+}
+
+//create a single Jar with all dependencies
+task publish(type: Jar) {
+    manifest {
+        attributes 'AjitPaiBot': 'AjitPai Bot',
+                'Implementation-Version': version,
+                'Main-Class': 'edu.usf.myweb.jcameron2.Start'
+    }
+    baseName = 'AjitPaiBot'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
